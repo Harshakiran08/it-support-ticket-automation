@@ -174,4 +174,5 @@ except Exception as e:
 
 print("Automation completed successfully.")
 print("Processed tickets:", processed_count)
+
 print("Rejected tickets:", rejected_count)
