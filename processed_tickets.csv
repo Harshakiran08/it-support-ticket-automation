@@ -1,0 +1,6 @@
+Ticket ID,Name,Email,Issue Type,Priority,Description,Timestamp,Assigned Team,SLA Deadline
+101,Rahul Sharma,rahul@gmail.com,wifi,High,Wifi not working,09-03-2026 09:00,Network,09-03-2026 13:00
+102,Anita Singh,anita@gmail.com,login,Medium,Cannot login to portal,09-03-2026 10:00,IT Support,10-03-2026 10:00
+104,Meera Nair,meera@gmail.com,hardware,High,Laptop not turning on,09-03-2026 12:00,Infrastructure,09-03-2026 16:00
+105,Ravi Kumar,ravi@gmail.com,wifi,Medium,Slow internet connection,09-03-2026 13:00,Network,10-03-2026 13:00
+107,Vikram Shah,vikram@gmail.com,login,High,Password reset required,09-03-2026 15:00,IT Support,09-03-2026 19:00

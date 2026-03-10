@@ -1,0 +1,4 @@
+Ticket ID,Name,Email,Issue Type,Priority,Description,Timestamp,Reason
+103,Kiran Das,kiran@gmail,software,Low,Software installation issue,09-03-2026 11:00,Invalid Email
+106,Asha Patel,asha@gmail.com,printer,Low,Printer not working,09-03-2026 14:00,Unknown Issue Type
+108,Rahul Sharma,rahul@gmail.com,wifi,High,Wifi still not working,09-03-2026 16:00,Duplicate Ticket
