@@ -1,196 +1,282 @@
 # IT Support Ticket Automation
 
+> A Python-based automation system for validating, processing, routing, and reporting IT support tickets.
+
 ## Overview
-This project implements an automated system for processing IT support tickets using Python. The automation reads ticket data from a CSV file, validates and cleans the data, removes duplicate tickets, routes each ticket to the appropriate IT support team, calculates SLA deadlines, and generates summary reports.
 
-The purpose of this automation is to reduce manual effort in managing IT support requests, improve ticket routing accuracy, and provide clear insights into ticket processing through automated reporting.
+**IT Support Ticket Automation** is a Python application that automates common IT support ticket processing tasks.
+
+The system takes ticket information from a CSV file, validates the submitted data, identifies duplicate requests, assigns tickets to the appropriate support team, calculates SLA deadlines based on priority, and generates structured processing reports.
+
+The project demonstrates how repetitive IT service-management workflows can be automated using **Python, data validation, business rules, and file-based data processing**.
 
 ---
 
-## Features
+## Key Features
 
+- Ticket data validation
 - Email format validation
-- Priority validation (Low, Medium, High)
-- Issue type validation
-- Duplicate ticket detection within 24 hours
-- Automatic ticket ID generation if missing
-- Ticket routing to appropriate IT teams
-- SLA deadline calculation based on priority
-- Error handling for invalid tickets
-- Storage failure handling
-- Summary report generation
+- Priority validation
+- Issue-type validation
+- Duplicate ticket detection
+- Automatic ticket ID generation
+- Rule-based team assignment
+- Priority-based SLA calculation
+- Invalid-ticket rejection with reasons
+- Processed and rejected ticket separation
+- Automated summary reporting
 
 ---
 
-## Input Data
+## Workflow
 
-The automation uses a CSV file as input containing support ticket data.
-
-Input file:
-
+```text
+                Input Tickets
+                     │
+                     ▼
+              Data Normalization
+                     │
+                     ▼
+               Data Validation
+                     │
+          ┌──────────┴──────────┐
+          │                     │
+       Valid                 Invalid
+          │                     │
+          ▼                     ▼
+   Duplicate Check        Rejection Reason
+          │
+     ┌────┴────┐
+     │         │
+  Unique   Duplicate
+     │         │
+     ▼         ▼
+Team Routing  Reject
+     │
+     ▼
+SLA Calculation
+     │
+     ▼
+Processed Tickets
+     │
+     ▼
+Summary Report
 ```
-tickets.csv
-```
-
-Example structure:
-
-| Ticket ID | Name | Email | Issue Type | Priority | Description | Timestamp |
-|-----------|------|------|-----------|---------|-------------|-----------|
-| 101 | Rahul | rahul@gmail.com | wifi | High | Wifi not working | 2026-03-09 09:00:00 |
 
 ---
 
-## Automation Workflow
+## Business Rules
 
-1. Load ticket data from the CSV file.
-2. Normalize text fields (convert to lowercase and remove extra spaces).
-3. Validate email format.
-4. Validate priority values.
-5. Validate issue type.
-6. Detect duplicate tickets (same email and issue within 24 hours).
-7. Generate a ticket ID if it is missing.
-8. Assign the ticket to the appropriate support team.
-9. Calculate the SLA deadline based on priority.
-10. Store processed tickets and rejected tickets.
-11. Generate a summary report.
+### Ticket Validation
 
----
+The system validates:
 
-## Routing Rules
+- Email format
+- Priority
+- Issue type
+- Required ticket information
+
+Invalid tickets are rejected with a corresponding reason.
+
+### Duplicate Detection
+
+Tickets with the same email and issue type within a **24-hour window** are treated as duplicates.
+
+### Team Routing
+
+Tickets are automatically assigned based on their issue type:
 
 | Issue Type | Assigned Team |
-|------------|---------------|
-| wifi | Network |
-| login | IT Support |
-| software | Applications |
-| hardware | Infrastructure |
-| other | General |
+|---|---|
+| WiFi | Network |
+| Login | IT Support |
+| Software | Applications |
+| Hardware | Infrastructure |
+| Other | General |
 
----
+### SLA Calculation
 
-## SLA Rules
+SLA deadlines are calculated from the ticket timestamp and priority:
 
-| Priority | SLA Duration |
-|----------|--------------|
+| Priority | SLA |
+|---|---:|
 | High | 4 hours |
 | Medium | 24 hours |
 | Low | 72 hours |
 
-SLA Deadline Formula:
+**Formula:**
 
-```
+```text
 SLA Deadline = Ticket Timestamp + SLA Duration
 ```
 
 ---
 
-## Output Files
+## Input
 
-### Processed Tickets
+The application reads ticket information from a CSV file.
 
-```
-processed_tickets.csv
-```
+### Example
 
-Contains cleaned and validated tickets including:
-- Assigned team
-- SLA deadline
+| Ticket ID | Name | Email | Issue Type | Priority | Description | Timestamp |
+|---|---|---|---|---|---|---|
+| 101 | Rahul | rahul@example.com | WiFi | High | WiFi not working | 2026-03-09 09:00:00 |
 
 ---
 
+## Output
+
+The system produces three primary outputs.
+
+### Processed Tickets
+
+Contains validated tickets along with:
+
+- Assigned support team
+- SLA deadline
+- Cleaned ticket information
+
 ### Rejected Tickets
 
-```
-rejected_tickets.csv
-```
+Contains tickets that failed validation or duplicate checks, together with the reason for rejection.
 
-Contains tickets rejected due to:
+Possible rejection reasons include:
+
 - Invalid email
 - Invalid priority
 - Unknown issue type
 - Duplicate ticket
 
-Each rejected ticket includes the reason for rejection.
-
----
-
 ### Summary Report
 
-```
-summary_report.csv
-```
-
-The summary report includes:
+Provides an overview of the processing results, including:
 
 - Total tickets received
-- Processed tickets
+- Successfully processed tickets
 - Rejected tickets
-- Processed vs rejected ratio
+- Processing ratio
 - Tickets assigned to each support team
-
-Example:
-
-| Metric | Value |
-|------|------|
-| Total Tickets Received | 10 |
-| Processed Tickets | 7 |
-| Rejected Tickets | 3 |
-| Processed vs Rejected | 7 : 3 |
-| Network Tickets | 2 |
 
 ---
 
 ## Project Structure
 
-```
-it-support-ticket-automation
+```text
+it-support-ticket-automation/
 │
 ├── automation.py
 ├── tickets.csv
-│
-├── outputs
-│   ├── processed_tickets.csv
-│   ├── rejected_tickets.csv
-│   └── summary_report.csv
-│
-├── docs
-│   └── automation_report.pdf
-│
-└── README.md
+├── processed_tickets.csv
+├── rejected_tickets.csv
+├── summary_report.csv
+├── README.md
+├── LICENSE
+└── .gitignore
 ```
 
 ---
 
-## How to Run the Project
+## Technologies
 
-1. Clone the repository or download the project.
+- **Python**
+- **CSV Processing**
+- **Regular Expressions**
+- **Datetime Processing**
+- **Rule-Based Automation**
 
-2. Ensure the input file `tickets.csv` is present in the project folder.
+---
 
-3. Run the Python script:
+## Getting Started
 
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Harshakiran08/it-support-ticket-automation.git
+cd it-support-ticket-automation
 ```
+
+### 2. Run the application
+
+Make sure `tickets.csv` is available in the project directory.
+
+```bash
 python automation.py
 ```
 
-4. After execution, the following output files will be generated:
+### 3. Review the generated reports
 
-- `processed_tickets.csv`
-- `rejected_tickets.csv`
-- `summary_report.csv`
+After execution, the application generates:
+
+```text
+processed_tickets.csv
+rejected_tickets.csv
+summary_report.csv
+```
 
 ---
 
-## Technologies Used
+## Example Use Case
 
-- Python
-- CSV file processing
-- Regular expressions
-- Datetime module
+Consider an organization receiving hundreds of IT support requests every day.
+
+Instead of manually checking every request:
+
+```text
+Incoming Ticket
+      ↓
+Validate
+      ↓
+Check Duplicate
+      ↓
+Determine Issue Type
+      ↓
+Assign Support Team
+      ↓
+Calculate SLA
+      ↓
+Generate Report
+```
+
+The automation reduces repetitive processing and creates a consistent, rule-based workflow for handling incoming support tickets.
+
+---
+
+## What This Project Demonstrates
+
+This project demonstrates practical experience with:
+
+- Python automation
+- Data validation
+- Business-rule implementation
+- File-based data processing
+- Exception and error handling
+- Duplicate detection
+- Rule-based classification
+- SLA management
+- Automated reporting
+
+---
+
+## Future Improvements
+
+Potential extensions include:
+
+- REST API integration
+- Database-backed ticket storage
+- Web-based ticket dashboard
+- Email notifications
+- Authentication and role-based access
+- Configurable SLA rules
+- Automated ticket prioritization
+- Machine-learning based ticket classification
+- Integration with IT service-management platforms
 
 ---
 
 ## Author
 
-Harsha Kiran H B  
-BE Information Science & Engineering
+**Harsha Kiran H B**
+
+B.E. Information Science & Engineering
+
+[GitHub](https://github.com/Harshakiran08)
